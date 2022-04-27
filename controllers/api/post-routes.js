@@ -1,12 +1,16 @@
 const router = require('express').Router();
-const { Post, User, Vote, Comment } = require('../../models');
+const { Post, User, Comment } = require('../../models');
 const sequelize = require('../../config/connection');
 
 router.get('/', (req, res) => {
   Post.findAll({
-    attributes: ['id', 'post_url', 'title', 'created_at', [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id=vote.post_id)'), 'vote_count']],
+    attributes: ['id', 'title', 'content', 'created_at', 'updated_at'],
     order: [['created_at', 'DESC']],
     include: [
+      {
+        model: User,
+        attributes: ['username'],
+      },
       //include the comment model here
       {
         model: Comment,
@@ -15,10 +19,6 @@ router.get('/', (req, res) => {
           model: User,
           attributes: ['username'],
         },
-      },
-      {
-        model: User,
-        attributes: ['username'],
       },
     ],
   })
@@ -34,8 +34,13 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id,
     },
-    attributes: ['id', 'post_url', 'title', 'created_at', [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE vote.post_id=post.id)'), 'vote_count']],
+    attributes: ['id', 'title', 'content', 'created_at', 'updated_at'],
+    order: [['created_at', 'DESC']],
     include: [
+      {
+        model: User,
+        attributes: ['username'],
+      },
       //include the comment model here
       {
         model: Comment,
@@ -44,10 +49,6 @@ router.get('/:id', (req, res) => {
           model: User,
           attributes: ['username'],
         },
-      },
-      {
-        model: User,
-        attributes: ['username'],
       },
     ],
   })
@@ -67,7 +68,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   Post.create({
     title: req.body.title,
-    post_url: req.body.post_url,
+    content: req.body.content,
     user_id: req.body.user_id,
   })
     .then(dbPostData => res.json(dbPostData))
@@ -77,12 +78,11 @@ router.post('/', (req, res) => {
     });
 });
 
-
 router.put('/:id', (req, res) => {
   Post.update(
     {
       title: req.body.title,
-      post_url: req.body.post_url,
+      content: req.body.content,
     },
     {
       where: {
