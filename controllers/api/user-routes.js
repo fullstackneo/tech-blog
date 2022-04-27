@@ -58,28 +58,28 @@ router.post('/', (req, res) => {
 });
 
 // validate password
-// router.post('/login', (req, res) => {
-//   User.findOne({
-//     where: {
-//       email: req.body.email,
-//     },
-//   }).then(dbUserData => {
-//     if (!dbUserData) {
-//       res.status(400).json({ message: 'No user with that email address!' });
-//       return;
-//     }
+router.post('/login', (req, res) => {
+  User.findOne({
+    where: {
+      email: req.body.username,
+    },
+  }).then(dbUserData => {
+    if (!dbUserData) {
+      res.status(400).json({ message: 'No user found with this username!' });
+      return;
+    }
 
-//     // res.json({ user: dbUserData });
+    // res.json({ user: dbUserData });
 
-//     // Verify user
+    // Verify user
 
-//     const validPassword = dbUserData.checkPassword(req.body.password);
-//     if (!validPassword) {
-//       res.status(400).json({ message: 'Incorrect password!' });
-//       return;
-//     }
-//   });
-// });
+    const validPassword = dbUserData.checkPassword(req.body.password);
+    if (!validPassword) {
+      res.status(400).json({ message: 'Incorrect password!' });
+      return;
+    }
+  });
+});
 
 // PUT /api/users/1
 router.put('/:id', (req, res) => {
