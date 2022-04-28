@@ -42,43 +42,44 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// POST /api/users
-router.post('/', (req, res) => {
-  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
-  User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
+router.post('/login', (req, res) => {
+  console.log(req.body);
+
+  User.findOne({
+    where: {
+      username: req.body.username,
+    },
   })
-    .then(dbData => res.json(dbData))
+    .then(dbData => {
+      //if no data was returned
+      if (!dbData) {
+        res.status(400).json('no user found');
+        return;
+      }
+
+      // verify password
+      const validPassword = dbData.checkPassword(req.body.password);
+
+      if (!validPassword) {
+        res.status(400).json({ message: 'Incorrent password' });
+      }
+      res.status(200).json({ user: dbData, message: 'You are logged in now!' });
+    })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
-// validate password
-router.post('/login', (req, res) => {
-  User.findOne({
-    where: {
-      email: req.body.username,
-    },
-  }).then(dbUserData => {
-    if (!dbUserData) {
-      res.status(400).json({ message: 'No user found with this username!' });
-      return;
-    }
-
-    // res.json({ user: dbUserData });
-
-    // Verify user
-
-    const validPassword = dbUserData.checkPassword(req.body.password);
-    if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect password!' });
-      return;
-    }
-  });
+// POST /api/users
+router.post('/', (req, res) => {
+  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
+  User.create(req.body)
+    .then(dbData => res.json(dbData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 // PUT /api/users/1
