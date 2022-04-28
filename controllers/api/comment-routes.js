@@ -3,7 +3,7 @@ const { Comment } = require('../../models');
 
 router.post('/', (req, res) => {
   // check the session
-
+  console.log(req.body);
   Comment.create({
     comment_text: req.body.comment_text,
     post_id: req.body.post_id,
