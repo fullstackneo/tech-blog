@@ -5,7 +5,9 @@
 - To create a Tech Blog
 
 ## Demo
-![image](https://github.com/fullstackneo/Horiseon/blob/main/screenshot/demo.png)
+![image](https://github.com/fullstackneo/tech-blog/blob/main/assets/screenshots/screenshot1.jpg)
+
+![image](https://github.com/fullstackneo/tech-blog/blob/main/assets/screenshots/screenshot2.jpg)
 
 ## Link
 
