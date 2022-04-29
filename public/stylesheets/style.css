@@ -11,7 +11,8 @@ body {
 }
 
 html,
-textarea {
+textarea,
+input {
   font-family: open sans;
 }
 

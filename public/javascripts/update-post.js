@@ -3,7 +3,6 @@ const id = location.pathname.split('/')[3];
 const titleEl = document.querySelector('#title');
 const contentEl = document.querySelector('#content');
 
-
 // update a post
 function updateFormHandler(event) {
   event.preventDefault();

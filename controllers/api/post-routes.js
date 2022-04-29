@@ -83,6 +83,8 @@ router.put('/:id', withAuth, (req, res) => {
     }
   )
     .then(dbPostData => {
+      console.log(dbPostData);
+      
       if (!dbPostData) {
         res.status(404).json({ message: 'No post found with this id' });
         return;
