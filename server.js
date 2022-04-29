@@ -12,7 +12,7 @@ const sess = {
   secret: 'I am Neo',
   cookie: {
     //valid for 5 mins
-    expires: 1000 * 60 * 5,
+    expires: 1000 * 60 * 60,
   },
   resave: false,
   saveUninitialized: true,
