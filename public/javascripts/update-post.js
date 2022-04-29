@@ -1,10 +1,14 @@
+// fill in title and content the post data
+const id = location.pathname.split('/')[3];
+const titleEl = document.querySelector('#title');
+const contentEl = document.querySelector('#content');
+
+
 // update a post
 function updateFormHandler(event) {
   event.preventDefault();
-  const id = location.pathname.split('/')[3];
-  const title = document.querySelector('#title').ariaValueMax.trim();
-  const content = document.querySelector('#content').ariaValueMax.trim();
-
+  const title = titleEl.value.trim();
+  const content = contentEl.value.trim();
   if (title && content) {
     fetch(`/api/posts/${id}`, {
       method: 'PUT',
@@ -24,5 +28,3 @@ function updateFormHandler(event) {
 }
 
 document.querySelector('.form').addEventListener('submit', updateFormHandler);
-
-

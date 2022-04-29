@@ -15,11 +15,13 @@ Comment.init(
     comment_text: {
       type: DataTypes.TEXT,
       allowNull: false,
+      validate: {
+        len: [1, 300],
+      },
     },
 
     user_id: {
       type: DataTypes.INTEGER,
-      // allowNull: false,
       references: {
         model: 'user',
         key: 'id',

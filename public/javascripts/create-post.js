@@ -6,7 +6,6 @@ async function createPostHandler(event) {
     fetch('/api/posts', {
       method: 'post',
       body: JSON.stringify({
-        user_id: 1,
         title,
         content,
       }),

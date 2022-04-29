@@ -37,7 +37,21 @@ router.get('/create-post', withAuth, (req, res) => {
 });
 
 router.get('/edit/:id', withAuth, (req, res) => {
-  res.render('edit-post');
+  Post.findOne({
+    where: { id: req.params.id },
+  })
+    .then(dbPostData => {
+      if (!dbPostData) {
+        res.status(404).json({ message: 'No post found with this id' });
+        return;
+      }
+      const postData = dbPostData.get({ plain: true });
+      res.render('edit-post', postData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;

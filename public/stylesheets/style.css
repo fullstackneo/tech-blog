@@ -9,7 +9,9 @@ body {
   background-color: rgb(216, 234, 210);
   margin: 0 auto;
 }
-html {
+
+html,
+textarea {
   font-family: open sans;
 }
 
