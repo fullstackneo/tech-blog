@@ -5,12 +5,15 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// set up session 
+// set up session
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sess = {
-  secret: 'Super secret secret',
-  cookie: {},
+  secret: 'I am Neo',
+  cookie: {
+    //valid for 5 mins
+    expires: 1000 * 60 * 5,
+  },
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
@@ -23,12 +26,10 @@ app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
 // set up handlebars
 const exphbs = require('express-handlebars');
 const helpers = require('./utils/helpers');
-const hbs = exphbs.create({helpers});
+const hbs = exphbs.create({ helpers });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
