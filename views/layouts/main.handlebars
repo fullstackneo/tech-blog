@@ -19,12 +19,17 @@
                 <li>
                     <a href="/dashboard">Dashboard</a>
                 </li>
+
+                {{#if loggedIn}}
+                <li id="logout">
+                    <a href="javascript:;">Logout</a>
+                </li>
+                {{else}}
                 <li>
                     <a href="/login">login</a>
                 </li>
-                <li>
-                    <a href="/">Logout</a>
-                </li>
+                {{/if}}
+
             </ul>
         </nav>
         <h1>The Tech Blog</h1>
@@ -35,8 +40,9 @@
     <footer>
         {{!-- Thanks for visiting --}}
     </footer>
+    {{#if loggedIn}}
+    <script src="/javascripts/logout.js"></script>
+    {{/if}}
 </body>
-
-
 
 </html>

@@ -1,11 +1,11 @@
 const router = require('express').Router();
-
 const { Post, User, Comment } = require('../models');
+const withAuth = require('../utils/auth');
 
-router.get('/', (req, res) => {
+router.get('/', withAuth, (req, res) => {
   Post.findAll({
     where: {
-      user_id: 1,
+      user_id: req.session.user_id,
     },
     attributes: ['id', 'title', 'content', 'created_at', 'updated_at'],
     order: [['created_at', 'DESC']],
@@ -19,7 +19,10 @@ router.get('/', (req, res) => {
   })
     .then(dbData => {
       const posts = dbData.map(item => item.get({ plain: true }));
-      res.render('dashboard', { posts });
+      res.render('dashboard', {
+        posts,
+        loggedIn: req.session.loggedIn,
+      });
 
       // res.json(dbData);
     })
@@ -29,11 +32,11 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/create-post', (req, res) => {
-  res.render('create-post')
-})
+router.get('/create-post', withAuth, (req, res) => {
+  res.render('create-post');
+});
 
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', withAuth, (req, res) => {
   res.render('edit-post');
 });
 

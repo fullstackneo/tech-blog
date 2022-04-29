@@ -15,8 +15,10 @@ router.get('/', (req, res) => {
   })
     .then(dbData => {
       const posts = dbData.map(item => item.get({ plain: true }));
-
-      res.render('homepage', { posts });
+      res.render('homepage', {
+        posts,
+        loggedIn: req.session.loggedIn,
+      });
 
       // res.json(dbData);
     })
@@ -55,7 +57,10 @@ router.get('/posts/:id', (req, res) => {
         return;
       }
       const post = dbData.get({ plain: true });
-      res.render('single-post', {post});
+      res.render('single-post', {
+        post,
+        loggedIn: req.session.loggedIn,
+      });
     })
     .catch(err => {
       console.log(err);
@@ -64,10 +69,18 @@ router.get('/posts/:id', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
   res.render('login');
 });
 
 router.get('/signup', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
   res.render('signup');
 });
 
